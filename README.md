@@ -1,12 +1,36 @@
 FileMakerDAO
 ============
 
-FileMakerAMF gateway
+FileMaker AMF gateway
 
 
-
+  @author Francesc Sans fsans@ntwk.es
+  @version 1.0
+  
+  Copyright (c) 2012 Network BCN Software
+  
+  his program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+ 
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+ 
+     You should have received a copy of the GNU General Public License
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ 
+ 
+------------------------------------------------------------------------------
+ 
+ 
+ 
+ 
 For each table you should create the remote service extending the FilemakerDao.php class:
-
+ 
 <?php
         include_once (DAO_LIB . "filemaker/FilemakerDao.php");
 
@@ -15,12 +39,15 @@ For each table you should create the remote service extending the FilemakerDao.p
                 public $valueObject     = "FmerrVO";
         }
 ?>
-The $context refers to the FileMaker LAYOUT name where queries will be targeted. Remember that only the fields placed in this layout can be part of the transaction. It will be a good idea to prefix all web interface specific layouts (we use "xml". You'll find this very usefull when auto generating code (to be docummented as well)
-
-The $valueObject is the name of the class employed as DTO for the referenced table ocurrence. Place VOs in a "vo" folder, the FilemakerDao class uses a class Factory instantiating typed objects at runtime, and searches the value object class definitions in this folder by default.
-
+ 
+ 
+The **$context** refers to the FileMaker LAYOUT name where queries will be targeted. Remember that only the fields placed in this layout can be part of the transaction. It will be a good idea to prefix all web interface specific layouts (we use "xml". You'll find this very usefull when auto generating code (to be docummented as well)
+ 
+The **$valueObject** is the name of the class employed as DTO for the referenced table ocurrence. Place VOs in a "vo" folder, the FilemakerDao class uses a class Factory instantiating typed objects at runtime, and searches the value object class definitions in this folder by default.
+ 
 Then create the DTO (Value object):
-
+   
+ 
 <?php
 class FmerrVO {
         
@@ -52,7 +79,7 @@ class FmerrVO {
 }
 ?>
 
-Note the type conversion that is done on $valueObject fill.
+Note the type conversion that is done on **$valueObject** fill.
 
 You can adjust data types between your app and FileMaker here. For example, for a FileMaker Number field use this to fix eventual (enoying) dot/colon separators:
 
@@ -79,11 +106,11 @@ Now you can make calls to the service, like find(), findCompound(), createOne(),
  
 Use the following params in each call:
  
-$param: one VO object filled with relevant values you want to set or update, use a null VO for a "findall" or especify recID (recordID) to edit records. 
+**$param**: one VO object filled with relevant values you want to set or update, use a null VO for a "findall" or especify **recID** (recordID) to edit records. 
  
-$filter: array with the name of the fields to use from the value object, null for all fields. 
+**$filter**: array with the name of the fields to use from the value object, null for all fields. 
  
-$skip: array with the skip & max values, if null returns all records found. 
+**$skip**: array with the skip & max values, if null returns all records found. 
  
  
 The signatures for each function are (as specified in the IFilemakerDao.php interface): 
@@ -97,7 +124,7 @@ The signatures for each function are (as specified in the IFilemakerDao.php inte
     
     // $param is always a VO or null
 
-Note that you can specify globally ignored fields in the config.ini file, that you should use in case you have read only fields in the $context layout (such as calculations or autoenter values)
+Note that you can specify globally ignored fields in the config.ini file, that you should use in case you have read only fields in the **$context** layout (such as calculations or autoenter values)
 
 
 
