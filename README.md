@@ -93,6 +93,7 @@ For Dates play with Strings (I'll talk about later)
 
 Create the package at your own, we recommend you to use standards (in this example "es.ntwk.samples.fmclub")
 
+<pre>
  -> FilemakerDao folder
      -> services
          -> lib (the filemakerdao library)
@@ -100,10 +101,11 @@ Create the package at your own, we recommend you to use standards (in this examp
              -> ntwk
                  -> samples
                      -> fmclub
-                         FmerrDao (your class)
+                         -> FmerrDao (your class)
                          -> vo
-                             FmerrVO (your value object)
- 
+                             -> FmerrVO (your value object)
+</pre>
+
 (Browse the Source code to see examples)
  
 Now you can make calls to the service, like find(), findCompound(), createOne(), updateOne(), deleteOne()...
