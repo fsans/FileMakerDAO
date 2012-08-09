@@ -15,9 +15,9 @@ For each table you should create the remote service extending the FilemakerDao.p
                 public $valueObject     = "FmerrVO";
         }
 ?>
-The $context refers to the FileMaker LAYOUT name where queries will be targeted. Remember that only the fields placed in this layout can be part of the transaction. It will be a good idea to prefix all web interface specific layouts (we use "xml". You'll find this very usefull when auto generating code (to de docummented as well)
+The $context refers to the FileMaker LAYOUT name where queries will be targeted. Remember that only the fields placed in this layout can be part of the transaction. It will be a good idea to prefix all web interface specific layouts (we use "xml". You'll find this very usefull when auto generating code (to be docummented as well)
 
-The $valueObject is the name of the class employed as DTO for the referenced table ocurrence. Place VOs in a "vo" folder, the FilemakerDao class uses a class Factory instantiating typed objects on demand, and searches value object class definitions in this folder by default.
+The $valueObject is the name of the class employed as DTO for the referenced table ocurrence. Place VOs in a "vo" folder, the FilemakerDao class uses a class Factory instantiating typed objects at runtime, and searches the value object class definitions in this folder by default.
 
 Then create the DTO (Value object):
 
@@ -51,10 +51,14 @@ class FmerrVO {
         }
 }
 ?>
-Note the type conversion that is done on $valueObject fill. You can adjust data types between your app and FileMaker here. For example, if you have a FileMaker Number field use this to fix eventual (enoying) dot/colon separators:
 
-$this->ammount  = (float)       str_replace(",", ".", $assoc->ammount);
-For Dates paly with Strings (I'll talk about later)
+Note the type conversion that is done on $valueObject fill.
+
+You can adjust data types between your app and FileMaker here. For example, for a FileMaker Number field use this to fix eventual (enoying) dot/colon separators:
+
+$this->ammount  = (float) str_replace(",", ".", $assoc->ammount);
+
+For Dates play with Strings (I'll talk about later)
 
 Create the package at your own, we recommend you to use standards (in this example "es.ntwk.samples.fmclub")
 
@@ -69,16 +73,21 @@ Create the package at your own, we recommend you to use standards (in this examp
                          -> vo
                              FmerrVO (your value object)
  
-(note: Browse the Source code for the example)
-
-Now you can make calls to the service, like find(), createOne(), updateOne(), deleteOne()...
-
+(Browse the Source code to see examples)
+ 
+Now you can make calls to the service, like find(), findCompound(), createOne(), updateOne(), deleteOne()...
+ 
 Use the following params in each call:
-
-$param: one VO filled with relevant values, null for a "findall" or especify recID (recordID) to edit records. $filter: array with the name of the fields to use from the value object, null for all fields $skip: array with the skip & max values, if null returns all records found
-
-The signatures for each function are (as specified in the IFilemakerDao.php interface):
-
+ 
+$param: one VO object filled with relevant values you want to set or update, use a null VO for a "findall" or especify recID (recordID) to edit records. 
+ 
+$filter: array with the name of the fields to use from the value object, null for all fields. 
+ 
+$skip: array with the skip & max values, if null returns all records found. 
+ 
+ 
+The signatures for each function are (as specified in the IFilemakerDao.php interface): 
+ 
     public function find                ($param, $filter, $skip);
     public function createOne           ($param, $filter                );
     public function updateOne           ($param, $filter                );
@@ -87,4 +96,8 @@ The signatures for each function are (as specified in the IFilemakerDao.php inte
     public function view                ($param                         );
     
     // $param is always a VO or null
-Note that you can specify globally ignored fields in the config.ini, that you should use in case you have read only fields in $context (such as calculations or autoenter values)
+
+Note that you can specify globally ignored fields in the config.ini file, that you should use in case you have read only fields in the $context layout (such as calculations or autoenter values)
+
+
+
